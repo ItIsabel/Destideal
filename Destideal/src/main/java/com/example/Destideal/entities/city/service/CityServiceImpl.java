@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -31,16 +28,17 @@ public class CityServiceImpl implements CityService {
         List<Rainfall> listaLluvias = this.rainfallService.find(filterDto);
         List<Temperature> listaTemperaturas = this.temperatureService.find(filterDto);
 
-        Set<City> ciudadesSet = new HashSet<>();
+        List<City> ciudades=new ArrayList<>();
 
         for (Rainfall rainfall : listaLluvias) {
             for (Temperature temperature : listaTemperaturas){
                 if (rainfall.getCity().equals(temperature.getCity())) {
-                    ciudadesSet.add(rainfall.getCity());
+                    ciudades.add(rainfall.getCity());
                 }
             }
         }
 
-        return new ArrayList<>(ciudadesSet);
+        ciudades.sort(Comparator.comparing(City::getIdCountry));
+        return ciudades;
     }
 }
