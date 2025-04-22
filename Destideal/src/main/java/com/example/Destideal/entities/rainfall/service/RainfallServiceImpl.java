@@ -1,10 +1,10 @@
 package com.example.Destideal.entities.rainfall.service;
 
-import com.example.Destideal.common.SearchCriteria;
 import com.example.Destideal.entities.city.model.CityFilterDto;
 import com.example.Destideal.entities.rainfall.RainfallRepository;
 import com.example.Destideal.entities.rainfall.model.Rainfall;
 import com.example.Destideal.entities.rainfall.model.RainfallSpecification;
+import jakarta.persistence.criteria.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -20,13 +20,16 @@ public class RainfallServiceImpl implements RainfallService {
 
 
     public List<Rainfall> find(CityFilterDto filterDto) {
+        Specification<Rainfall> spec = RainfallSpecification.monthRainfallBetween(filterDto.getMonth(), filterDto.getMinRain(), filterDto.getMaxRain());
 
-        RainfallSpecification minRain = new RainfallSpecification(new SearchCriteria(filterDto.getMonth(), ">=", filterDto.getMinRain()));
-        RainfallSpecification maxRain = new RainfallSpecification(new SearchCriteria(filterDto.getMonth(), "<=", filterDto.getMaxRain()));
+/*
+        spec = spec.and((root, query, cb) -> {
+            root.fetch("city", JoinType.LEFT);
+            return cb.conjunction();
+        });
+*/
 
-        Specification<Rainfall> spec = Specification.where(minRain).and(maxRain);
-
-        return this.rainfallRepository.findAll(spec);
+        return rainfallRepository.findAll(spec);
     }
 
 }

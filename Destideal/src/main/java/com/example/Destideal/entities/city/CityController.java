@@ -39,7 +39,7 @@ public class CityController {
     public List<CityDto> find (@RequestBody(required = false) CityFilterDto filterDto) {
 
         List<City> listado = cityService.findByTemperatureAndRainfall(filterDto);
-        System.out.println(listado);
+        System.out.println(listado.size());
         return listado.stream().map(e -> mapper.map(e, CityDto.class)).collect(Collectors.toList());
     }
 

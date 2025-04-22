@@ -8,12 +8,12 @@ public class CityFilterDto {
  private String month;
 
     //temperatura
- private Long maxTemp;
- private Long minTemp;
+ private int maxTemp;
+ private int minTemp;
 
     //lluvia
- private Long maxRain;
- private Long minRain;
+ private int maxRain;
+ private int minRain;
 
 
 /*  Implementaciones futuras:
@@ -28,35 +28,35 @@ public class CityFilterDto {
 
 
 
-    public Long getMaxTemp() {
+    public int getMaxTemp() {
         return maxTemp;
     }
 
-    public void setMaxTemp(Long maxTemp) {
+    public void setMaxTemp(int maxTemp) {
         this.maxTemp = maxTemp;
     }
 
-    public Long getMinTemp() {
+    public int getMinTemp() {
         return minTemp;
     }
 
-    public void setMinTemp(Long minTemp) {
+    public void setMinTemp(int minTemp) {
         this.minTemp = minTemp;
     }
 
-    public Long getMaxRain() {
+    public int getMaxRain() {
         return maxRain;
     }
 
-    public void setMaxRain(Long maxRain) {
+    public void setMaxRain(int maxRain) {
         this.maxRain = maxRain;
     }
 
-    public Long getMinRain() {
+    public int getMinRain() {
         return minRain;
     }
 
-    public void setMinRain(Long minRain) {
+    public void setMinRain(int minRain) {
         this.minRain = minRain;
     }
 
