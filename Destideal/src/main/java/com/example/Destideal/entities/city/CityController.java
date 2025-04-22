@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,8 +38,13 @@ public class CityController {
     @Operation(summary = "Find", description = "Method that return a List of Cities")
     @RequestMapping(path = "", method = {RequestMethod.POST})
     public List<CityDto> find (@RequestBody(required = false) CityFilterDto filterDto) {
-
-        List<City> listado = cityService.findByTemperatureAndRainfall(filterDto);
+        List<City> listado =new ArrayList<>();
+        if (filterDto==null){
+            listado=cityService.findAll();
+        }
+        else{
+            listado = cityService.findByTemperatureAndRainfall(filterDto);
+        }
         System.out.println(listado.size());
         return listado.stream().map(e -> mapper.map(e, CityDto.class)).collect(Collectors.toList());
     }

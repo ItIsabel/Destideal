@@ -1,5 +1,6 @@
 package com.example.Destideal.entities.city.service;
 
+import com.example.Destideal.entities.city.CityRepository;
 import com.example.Destideal.entities.city.model.City;
 import com.example.Destideal.entities.city.model.CityFilterDto;
 import com.example.Destideal.entities.rainfall.model.Rainfall;
@@ -23,6 +24,9 @@ public class CityServiceImpl implements CityService {
     @Autowired
     private TemperatureService temperatureService;
 
+    @Autowired
+    private CityRepository cityRepository;
+
 
     public List<City> findByTemperatureAndRainfall(CityFilterDto filterDto) {
         List<Rainfall> listaLluvias = this.rainfallService.find(filterDto);
@@ -40,5 +44,10 @@ public class CityServiceImpl implements CityService {
 
         ciudades.sort(Comparator.comparing(City::getIdCountry));
         return ciudades;
+    }
+
+    @Override
+    public List<City> findAll() {
+        return this.cityRepository.findAll();
     }
 }

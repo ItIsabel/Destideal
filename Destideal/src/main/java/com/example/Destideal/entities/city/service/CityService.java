@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CityService {
      List<City> findByTemperatureAndRainfall(CityFilterDto filterDto);
+
+    List<City> findAll();
 }

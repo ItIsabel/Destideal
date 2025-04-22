@@ -1,0 +1,78 @@
+<div class="container">
+    <h1>Destideal</h1>
+    <section class="filters">
+            <!-- Filtro de mes -->
+            <span class="filter">
+                <mat-label>Mes</mat-label>
+                <mat-button-toggle-group [(ngModel)]="selectedMonth" name="month">
+                    <mat-button-toggle value="jan">Ene</mat-button-toggle>
+                    <mat-button-toggle value="feb">Feb</mat-button-toggle>
+                    <mat-button-toggle value="mar">Mar</mat-button-toggle>
+                    <mat-button-toggle value="apr">Abr</mat-button-toggle>
+                    <mat-button-toggle value="may">May</mat-button-toggle>
+                    <mat-button-toggle value="jun">Jun</mat-button-toggle>
+                    <mat-button-toggle value="jul">Jul</mat-button-toggle>
+                    <mat-button-toggle value="aug">Ago</mat-button-toggle>
+                    <mat-button-toggle value="sep">Sep</mat-button-toggle>
+                    <mat-button-toggle value="oct">Oct</mat-button-toggle>
+                    <mat-button-toggle value="nov">Nov</mat-button-toggle>
+                    <mat-button-toggle value="dec">Dic</mat-button-toggle>
+                </mat-button-toggle-group>
+            </span>
+
+            <!-- Filtro de rango de temperatura -->
+            <span class="filter">
+                <mat-label>Rango de <br>temperatura </mat-label>
+                <div class="range-values">
+                    <span>{{ minTemp }}°C hasta {{ maxTemp }}°C </span>
+                </div>
+                <mat-slider 
+                    [min]="0" 
+                    [max]="50" 
+                    [step]="1" 
+                    [discrete]="true">
+                    <input 
+                        matSliderStartThumb 
+                        [(ngModel)]="minTemp" 
+                        name="minTemp">
+                    <input 
+                        matSliderEndThumb 
+                        [(ngModel)]="maxTemp" 
+                        name="maxTemp">
+                </mat-slider>
+            </span>
+            
+            <!-- Filtro de rango de lluvia -->
+            <span class="filter">
+                <mat-label>Rango de lluvias</mat-label>
+                <div class="range-values">
+                    <span>{{ minRain }}mm hasta {{ maxRain }}mm</span>
+                </div>
+                <mat-slider 
+                    [min]="0" 
+                    [max]="100" 
+                    [step]="1" 
+                    [discrete]="true">
+                    <input 
+                        matSliderStartThumb 
+                        [(ngModel)]="minRain" 
+                        name="minRain">
+                    <input 
+                        matSliderEndThumb 
+                        [(ngModel)]="maxRain" 
+                        name="maxRain">
+                </mat-slider>
+            </span>
+
+        <div class="buttons">
+            <button mat-stroked-button (click)="onCleanFilter()">Limpiar</button>
+            <button mat-stroked-button (click)="onSearch()">Filtrar</button>
+        </div>
+    </section>
+    <section class="city-list">
+        @for (city of cities; track city.id) {
+            <app-city-item  [city]="city" />
+        }
+        
+    </section>
+</div>
