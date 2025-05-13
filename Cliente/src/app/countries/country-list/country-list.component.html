@@ -1,0 +1,7 @@
+<div class="container">
+    <section class="country-list">
+        @for (country of countries; track country.id) {
+            <app-country-item (click)="goToCountryCities(country.id)" [country]="country" />
+        }
+    </section>
+</div>

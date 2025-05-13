@@ -13,9 +13,11 @@ export class CityService {
 
 private baseUrl = 'http://localhost:8080/cities';
 
-getCities(request): Observable<City[]> {
+
+getCitiesByCountry(request): Observable<City[]> {
+  const country = request.country;
   console.log(request)
-  return  this.http.post<City[]>(this.baseUrl, request);
+  return this.http.post<City[]>(`${this.baseUrl}/${country}`, request);
 }
 
   // Método para conectar con el endpoint definido

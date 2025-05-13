@@ -14,6 +14,10 @@ import { City } from '../model/City';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { HttpClientModule } from '@angular/common/http';
 import { CityItemComponent } from './city-item/city-item.component';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { ActivatedRoute } from '@angular/router';
+import { HeadernfiltersService } from '../../core/headernfilters.service';
+
 
 @Component({
     selector: 'app-city-list',
@@ -36,54 +40,35 @@ import { CityItemComponent } from './city-item/city-item.component';
     styleUrl: './city-list.component.scss',
 })
 export class CityListComponent implements OnInit {
-    cities: City[];
-
+    countryCode: string;
+    cities: City[] = [];
+    private subscription: Subscription;
     
-    // Variables para los rangos de temperatura y lluvia
-    minTemp: number = 0;
-    maxTemp: number = 50;
-    minRain: number = 0;
-    maxRain: number = 100;
-    selectedMonth: string = null;
-
     constructor(
-        private cityService: CityService,
-        public dialog: MatDialog
+      private route: ActivatedRoute,
+      private cityService: CityService,
+      private filterService: HeadernfiltersService
     ) {}
-
-    ngOnInit(): void {
-        this.getCities();
+    
+ngOnInit(): void {
+      this.subscription = this.filterService.filters$.subscribe(filters => {
+          this.loadCitiesWithFilters(filters);
+      });
+    }
+    
+    loadCitiesWithFilters(filters: any): void {
+      filters.country = this.route.snapshot.paramMap.get('id');
+      this.cityService.getCitiesByCountry(filters).subscribe(data => {
+        this.cities = data;
+      });
+    }
+    
+    
+    ngOnDestroy(): void {
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
     }
 
-    getCities(): void {
-        const request = {
-            minTemp: this.minTemp || null,
-            maxTemp: this.maxTemp || null,
-            minRain: this.minRain || null,
-            maxRain: this.maxRain || null,
-            month: this.selectedMonth || null,
-        };
-        this.cityService.getCities(request).subscribe((cities) => (this.cities = cities));
     }
 
-    onCleanFilter(): void {
-        // Restablecer los filtros a sus valores predeterminados
-        this.minTemp = 0;
-        this.maxTemp = 50;
-        this.minRain = 0;
-        this.maxRain = 100;
-        this.onSearch();
-    }
-
-    onSearch(): void {
-        const request = {
-            minTemp: this.minTemp || null,
-            maxTemp: this.maxTemp || null,
-            minRain: this.minRain || null,
-            maxRain: this.maxRain || null,
-            month: this.selectedMonth || null,
-        };
-        this.cityService.getCities(request).subscribe((cities) => (this.cities = cities));
-    }
-
-}
